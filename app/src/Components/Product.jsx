@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 
 const Product = () => {
-
+ 
   const [quantity, setQuantity] = useState(0);
   const [array, setArray] = useState([]);
+  let total=0;
 //   const [id, setId] = useState(0)
     const Products = [
 
@@ -15,18 +16,13 @@ const Product = () => {
         
         ];
 
-    const handlePlus = (key)=>{
-      
-        setQuantity(quantity + 1)
-        let item =[];
-        if(key == Products.key ){
-            item.push(Products[key])
-            setArray(...array,item)
-            console.log(array)
-        }
+    const handlePlus = (el)=>{
+      setQuantity(quantity + 1);
+       setArray([...array,el])
     }  
-    const handleMinus = ()=>{
+    const handleMinus = (el)=>{
         setQuantity(quantity - 1);
+        setArray([...array,el])
     }    
   return (
     <div style={{display:"flex", gap:15,marginTop:10,marginLeft:20}}>
@@ -39,20 +35,12 @@ const Product = () => {
      <p>{el.price}</p>
      <div style={{display:'flex',width:70,height:30,gap:6,alignItems:'center',border:"1px solid black",marginTop:10,borderRadius:8,backgroundColor:"blue"}} >
         <button onClick={()=>{
-         let key = index+1;
-         console.log(key)
-         setQuantity(quantity + 1)
-         let item =[];
-        if(key){
-            console.log(key)
-            item.push(Products[key])
-            setArray(...array,item)
-            console.log(array)
-        }
-        
+          handlePlus(el)
         }}>+</button>
         <p>{quantity}</p>
-        <button onClick={handleMinus}>-</button>
+        <button onClick={()=>{
+          handleMinus(el)
+        }}>-</button>
      </div>
      </div>
     })
@@ -69,10 +57,12 @@ const Product = () => {
      </div>
         })
         } 
-
-        <div style={{border:"1px solid gray",position:"fixed",bottom:0,width:300,height:30,marginLeft:20}}>total:{array.reduce((acc,curr)=>{
-          return acc+curr
-        },0)}</div>
+        {array.map((el)=>{
+         let p = 0;
+          p += Number(el.price);
+          total=p
+        })}
+        <div style={{border:"1px solid gray",position:"fixed",bottom:0,width:300,height:30,marginLeft:20}}>total:{total}</div>
 
     </div>
     
